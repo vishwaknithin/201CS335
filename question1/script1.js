@@ -1,54 +1,48 @@
-const itemForm = document.getElementById('item-form');
-const itemInput = document.getElementById('item-input');
-const itemList = document.getElementById('item-list');
-function addItem(e) {
-    e.preventDefault();
-  
-    // Validate input
-    if (itemInput.value === '') {
-      alert('Please enter an item');
-      return;
-    }
-  
-    console.log('Success');
-  }
-  
-  itemForm.addEventListener('submit', addItem);
-function addItem(e) {
-    e.preventDefault();
-  
-    const newItem = itemInput.value;
-  
-    // Validate Input
-    if (newItem === '') {
-      alert('Please add an item');
-      return;
-    }
-  
-    // Create list item
-    const li = document.createElement('li');
-    li.appendChild(document.createTextNode(newItem));
-  
-    const button = createButton('remove-item btn-link text-red');
-    li.appendChild(button);
-  
-    itemList.appendChild(li);
-  
-    itemInput.value = '';
-  }
-  
-  function createButton(classes) {
-    const button = document.createElement('button');
-    button.className = classes;
-    const icon = createIcon('fa-solid fa-xmark');
-    button.appendChild(icon);
-    return button;
-  }
-  
-  function createIcon(classes) {
-    const icon = document.createElement('i');
-    icon.className = classes;
-    return icon;
-  }
 
-  
+var url2 = 'http://20.244.56.144/numbers/primes';
+var url1 = 'http://20.244.56.144/numbers/fibo';
+var url3 = 'http://20.244.56.144/numbers/odd';
+var arr = new Set(); // Set accepts only unique elements 
+
+function addingToArr(data) {
+  data.forEach(element => {
+    arr.add(element);
+  });
+}
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function getAllData() {
+  try {
+    const response1 = await fetch(url1);
+    await delay(500); 
+
+    const arr1 = await response1.json();
+
+    const response2 = await fetch(url2);
+    await delay(500); 
+
+    const arr2 = await response2.json();
+
+    const response3 = await fetch(url3);
+    await delay(500); 
+
+    const arr3 = await response3.json();
+
+    addingToArr(arr1);
+    addingToArr(arr2);
+    addingToArr(arr3);
+    arr.sort();
+    console.log(arr);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+function init() {
+  document.addEventListener('DOMContentLoaded', getAllData);
+}
+
+init();
